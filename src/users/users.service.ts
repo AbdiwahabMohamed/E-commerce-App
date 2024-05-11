@@ -17,7 +17,7 @@ export class UsersService {
     });
     return findUser;
   }
-  async createUser(id: string, dto: UserDto) {
+  async createUser(dto: UserDto) {
     const { email, password } = dto;
     const IsUserExist = await this.databaseService.user.findUnique({
       where: {
