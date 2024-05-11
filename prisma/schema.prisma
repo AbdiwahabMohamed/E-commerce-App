@@ -7,10 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model user {
+  id           Int     @id @default(autoincrement())
+  name         String
+  password     String
+  email        String  @unique
+  location     String
+  isAdmin      Boolean
+  profilePhoto String
+}
+
 model product {
   id          Int    @id @default(autoincrement())
   name        String
   price       Int
   description String
   quantity    Int
+}
+
+model category {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
 }
