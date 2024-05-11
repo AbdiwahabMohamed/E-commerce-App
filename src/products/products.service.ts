@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Param } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class ProductsService {
     return await this.databaseService.product.findMany();
   }
 
-  async getProductById(id: number) {
+  async getProductById(@Param('id') id: number) {
     const findProduct = await this.databaseService.product.findUnique({
       where: {
         id: id,
@@ -24,7 +24,7 @@ export class ProductsService {
       data: product,
     });
   }
-  async updateProduct(id: number) {
+  async updateProduct(@Param('id') id: number) {
     const findProduct = await this.databaseService.product.findUnique({
       where: {
         id: id,
@@ -35,7 +35,7 @@ export class ProductsService {
       throw new NotFoundException('Product not found');
     }
   }
-  async deleteProduct(id: number) {
+  async deleteProduct(@Param('id') id: number) {
     const findProduct = await this.databaseService.product.findUnique({
       where: {
         id: id,
