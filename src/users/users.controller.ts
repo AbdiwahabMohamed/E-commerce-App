@@ -19,10 +19,10 @@ export class UsersController {
     return this.usersService.getUsers();
   }
   @Get(':id')
-  getUserById(id: number) {
-    return this.usersService.getUserById(id);
+  getUserById(@Param('id') id: string) {
+    return this.usersService.getUserById(+id);
   }
-  @Post()
+  @Post('createUser')
   createUser(@Body() dto: UserDto) {
     return this.usersService.createUser(dto);
   }
@@ -31,7 +31,7 @@ export class UsersController {
     return this.usersService.updateUser(id, dto);
   }
   @Delete(':id')
-  deleteUser(id: number) {
-    return this.usersService.deleteUser(id);
+  deleteUser(@Param('id') id: string) {
+    return this.usersService.deleteUser(+id);
   }
 }

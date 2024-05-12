@@ -20,8 +20,8 @@ export class ProductsController {
   }
 
   @Get(':id')
-  getProductById(@Param('id') id: number) {
-    return this.productsService.getProductById(id);
+  getProductById(@Param('id') id: string) {
+    return this.productsService.getProductById(+id);
   }
   @Post('createProduct')
   createProduct(@Body() dto: ProductDto) {
@@ -32,7 +32,7 @@ export class ProductsController {
     return this.productsService.updateProduct(id);
   }
   @Delete(':id')
-  deleteProduct(id: number) {
-    return this.productsService.deleteProduct(id);
+  deleteProduct(@Param('id') id: string) {
+    return this.productsService.deleteProduct(+id);
   }
 }

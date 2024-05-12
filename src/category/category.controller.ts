@@ -19,19 +19,19 @@ export class CategoryController {
     return this.categoryService.getCategory();
   }
   @Get(':id')
-  getCategoryById(id: number) {
-    return this.categoryService.getCategoryById(id);
+  getCategoryById(@Param('id') id: string) {
+    return this.categoryService.getCategoryById(+id);
   }
   @Post('createCategory')
   createCategory(@Body() dto: CategoryDto) {
     return this.categoryService.createCategory(dto);
   }
   @Put(':id')
-  updateCategory(@Param('id') id: number) {
-    return this.categoryService.updateCategory(id);
+  updateCategory(@Param('id') id: string) {
+    return this.categoryService.updateCategory(+id);
   }
   @Delete(':id')
-  deleteCategory(id: number) {
-    return this.categoryService.deleteCategory(id);
+  deleteCategory(@Param('id') id: string) {
+    return this.categoryService.deleteCategory(+id);
   }
 }

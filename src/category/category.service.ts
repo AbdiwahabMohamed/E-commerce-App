@@ -54,8 +54,8 @@ export class CategoryService {
     });
     return updateCategory;
   }
-  deleteCategory(id: number) {
-    const findCategory = this.database.category.findUnique({
+  async deleteCategory(id: number) {
+    const findCategory = await this.database.category.findUnique({
       where: {
         id: id,
       },
@@ -63,11 +63,11 @@ export class CategoryService {
     if (!findCategory) {
       throw new NotFoundException('Category not found');
     }
-    const deleteCategory = this.database.category.delete({
+    await this.database.category.delete({
       where: {
         id: id,
       },
     });
-    return deleteCategory;
+    return 'category deleted successfully';
   }
 }

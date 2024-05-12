@@ -70,11 +70,11 @@ export class UsersService {
     if (!findUser) {
       throw new BadRequestException('User not found');
     }
-    const deleteUser = await this.databaseService.user.delete({
+    await this.databaseService.user.delete({
       where: {
         id: id,
       },
     });
-    return deleteUser;
+    return 'user deleted successfully';
   }
 }

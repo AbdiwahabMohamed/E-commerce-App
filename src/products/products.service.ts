@@ -18,6 +18,7 @@ export class ProductsService {
     if (!findProduct) {
       throw new NotFoundException('Product not found');
     }
+    return findProduct;
   }
   async createProduct(product: any) {
     return await this.databaseService.product.create({
@@ -44,10 +45,11 @@ export class ProductsService {
     if (!findProduct) {
       throw new NotFoundException('Product not found');
     }
-    return await this.databaseService.product.delete({
+    await this.databaseService.product.delete({
       where: {
         id: id,
       },
     });
+    return 'Product deleted successfully';
   }
 }
