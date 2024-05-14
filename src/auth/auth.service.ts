@@ -1,27 +1,50 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { DatabaseService } from 'src/database/database.service';
+import { AuthDto } from './dto/create-auth.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  constructor(private databaseServive: DatabaseService) {}
+  async signun(dto: AuthDto) {
+    const findUser = await this.databaseServive.user.findUnique({
+      where: {
+        email: dto.email,
+      },
+    });
+    if (findUser) {
+      throw new BadRequestException('User already exist');
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(dto.password, salt);
+    const createUser = await this.databaseServive.user.create({
+      data: {
+        email: dto.email,
+        password: hashedPassword,
+        name: dto.name,
+        location: dto.location,
+        phone: dto.phone,
+      },
+    });
+    return createUser;
   }
-
-  findAll() {
-    return `This action returns all auth`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  async signin(dto: AuthDto) {
+    const findUser = await this.databaseServive.user.findUnique({
+      where: {
+        email: dto.email,
+      },
+    });
+    if (!findUser) {
+      throw new BadRequestException('User not found');
+    }
+    const isPasswordMatch = await bcrypt.compare(
+      findUser.password,
+      dto.password,
+    );
+    if (!isPasswordMatch) {
+      throw new BadRequestException('Invalid password');
+    }
+    return findUser;
   }
 }

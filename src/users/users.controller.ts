@@ -1,15 +1,6 @@
 /* eslint-disable prettier/prettier */
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Controller, Delete, Get, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UserDto } from './Dtos/user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -22,14 +13,14 @@ export class UsersController {
   getUserById(@Param('id') id: string) {
     return this.usersService.getUserById(+id);
   }
-  @Post('createUser')
-  createUser(@Body() dto: UserDto) {
-    return this.usersService.createUser(dto);
-  }
-  @Put(':id')
-  updateUser(@Param('id') id: number, @Body() dto: UserDto) {
-    return this.usersService.updateUser(id, dto);
-  }
+  // @Post('createUser')
+  // createUser(@Body() dto: UserDto) {
+  //   return this.usersService.createUser(dto);
+  // }
+  // @Put(':id')
+  // updateUser(@Param('id') id: number, @Body() dto: UserDto) {
+  //   return this.usersService.updateUser(id, dto);
+  // }
   @Delete(':id')
   deleteUser(@Param('id') id: string) {
     return this.usersService.deleteUser(+id);

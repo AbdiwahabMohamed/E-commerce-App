@@ -32,6 +32,20 @@ model category {
   description String
 }
 
+model order {
+  id     Int      @id @default(autoincrement())
+  date   DateTime
+  amount Int
+  status Boolean
+}
+
+model orderDetails {
+  id           Int @id @default(autoincrement())
+  quantity     Int
+  pricePerUnit Int
+  totalPrice   Int
+}
+
 enum Role {
   ADMIN
   USER
