@@ -36,7 +36,7 @@ export class UsersService {
         phone: dto.phone,
       },
     });
-    return { password, ...createUser };
+    return createUser;
   }
   async updateUser(id: number, dto: UserDto) {
     const findUser = await this.databaseService.user.findUnique({

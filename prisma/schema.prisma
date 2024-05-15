@@ -34,10 +34,10 @@ model category {
 
 model order {
   id          Int      @id @default(autoincrement())
-  orderDate   DateTime
-  amount      Int
-  status      Boolean
-  description String
+  orderDate   DateTime @default(now())
+  amount      Int?
+  status      Boolean  @default(false)
+  description String?
 }
 
 model orderDetails {
