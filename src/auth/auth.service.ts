@@ -40,6 +40,7 @@ export class AuthService {
     return createUser;
   }
   async signin(dto: AuthDto) {
+    //const { password } = dto;
     const findUser = await this.databaseServive.user.findUnique({
       where: {
         email: dto.email,
@@ -49,12 +50,14 @@ export class AuthService {
       throw new BadRequestException('User not found');
     }
     const isPasswordMatch = await bcrypt.compare(
-      findUser.password,
       dto.password,
+      findUser.password,
     );
+
     if (!isPasswordMatch) {
-      throw new BadRequestException('Invalid password');
+      throw new ForbiddenException('Access denied');
     }
+
     const payload = {
       sub: findUser.id,
       email: findUser.email,
@@ -63,9 +66,6 @@ export class AuthService {
     const token = await this.jwtServices.signAsync(payload, {
       secret: process.env.JWT_SEKRET_KEY,
     });
-    if (!token) {
-      throw new ForbiddenException('Could not signin');
-    }
     return { findUser, token };
   }
 }
